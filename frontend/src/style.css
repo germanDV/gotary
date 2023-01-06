@@ -1,0 +1,247 @@
+:root {
+  --main-bg-color: #1d2021;
+  --accent-bg-color: #3c3836;
+  --main-text-color: #ebdbb2;
+  --secondary-text-color: #a89984;
+  --accent-color: #cc241d;
+  --secondary-color: #689d6a;
+}
+
+@font-face {
+    font-family: "Nunito";
+    font-style: normal;
+    font-weight: 400;
+    src: local(""),
+    url("assets/fonts/nunito-v16-latin-regular.woff2") format("woff2");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+    background-color: var(--main-bg-color);
+    text-align: center;
+    color: var(--main-text-color);
+}
+
+body {
+    margin: 0;
+    color: var(--main-text-color);
+    font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+    font-size: 1.1rem;
+}
+
+main {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+aside {
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+a {
+  color: var(--accent-color);
+}
+
+.error {
+  color: var(--accent-color);
+  font-style: italic;
+}
+
+#logo {
+    width: 25%;
+    height: 25%;
+}
+
+input, textarea {
+  padding: 10px;
+  background-color: transparent;
+  border: 1px solid var(--main-text-color);
+  color: inherit;
+  font-family: inherit;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  outline: none;
+  font-size: 1rem;
+  transition-duration: .5s;
+}
+
+input:active,
+input:focus,
+input:hover {
+  border: 1px solid var(--secondary-color);
+}
+
+input.wide {
+  width: 450px;
+}
+
+.grid {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+}
+
+aside {
+  background-color: var(--accent-bg-color);
+}
+
+.key {
+  width: 80%;
+  margin: 10px auto;
+  border-radius: 4px;
+  background-color: var(--main-bg-color);
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.key .name {
+  text-align: left;
+}
+
+.key .actions {
+  display: flex;
+}
+
+.key .actions > div {
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background-color: var(--accent-bg-color);
+  margin: 0 5px;
+  padding: 2px 5px;
+  transition-duration: .5s;
+}
+
+.key .actions > div:hover {
+  border-color: var(--secondary-color);
+  color: var(--secondary-color);
+}
+.key .actions > div.danger:hover {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+span.public-key-xs {
+  display: block;
+  font-size: 10px;
+  text-transform: italic;
+  color: var(--secondary-text-color);
+}
+
+.main {
+  overflow-x: auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+button {
+  outline: none;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition-duration: .5s;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+button.fill {
+  background-color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+}
+button.fill:hover {
+  color: inherit;
+}
+
+button.outline {
+  background-color: transparent;
+  border: 1px solid var(--secondary-color);
+  color: var(--secondary-color);
+}
+button.outline:hover {
+  background-color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+  color: inherit;
+}
+
+.signature {
+  word-wrap: break-word;
+  text-align: left;
+}
+
+section {
+  border: 2px solid var(--accent-bg-color);
+  width: 70%;
+  margin: 40px auto 5px auto;
+  border-radius: 4px;
+  padding: 0 40px 20px 40px;
+  word-wrap: break-word;
+  text-align: left;
+}
+
+section > h2 {
+  transform: translateY(-38px);
+  margin-bottom: 0;
+  border: 2px solid var(--accent-bg-color);
+  border-radius: 4px;
+  background-color: var(--main-bg-color);
+  padding-left: 10px;
+  line-height: 1.5;
+  font-weight: lighter;
+  color: var(--secondary-text-color);
+}
+
+div.align-right {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.file-chooser {
+  display: grid;
+  grid-template-columns: 75px 1fr;
+  column-gap: 10px;
+  align-items: center;
+}
+
+div.file-chooser > div {
+  max-width: calc(100% - 100px - 10px);
+}
+
+.toast > div{
+  border-radius: 4px;
+}
+
+.import-key {
+  border: 1px dashed var(--secondary-text-color);
+  border-radius: 4px;
+  margin: 40px 30px;
+  padding: 10px;
+}
+
+textarea {
+  border: none;
+  background-color: var(--main-bg-color);
+  margin-bottom: 5px;
+}
+
+.import-key > input {
+  border: none;
+  background-color: var(--main-bg-color);
+  max-width: 100%;
+  margin-top: 0;
+}
