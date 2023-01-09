@@ -1,11 +1,21 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import logo from "../assets/images/logo-universal.png"
-import { Login } from "../../wailsjs/go/main/App"
+import { Login, IsLoggedIn } from "../../wailsjs/go/main/App"
 
 const Auth = () => {
   const navigate = useNavigate()
   const [error, setError] = useState("")
+
+  useEffect(() => {
+    async function checkUserStatus() {
+      const isLoggedIn = await IsLoggedIn()
+      if (isLoggedIn) {
+        navigate("/dashboard")
+      }
+    }
+    checkUserStatus()
+  }, [])
 
   const handleSubmit = async (ev) => {
     ev.preventDefault()

@@ -5,7 +5,11 @@ export function CopyToClipboard(arg1:string):Promise<void>;
 
 export function GetMyPublicKey():Promise<string>;
 
+export function IsLoggedIn():Promise<boolean>;
+
 export function Login(arg1:string):Promise<void>;
+
+export function Logout():Promise<void>;
 
 export function SelectFile():Promise<string>;
 

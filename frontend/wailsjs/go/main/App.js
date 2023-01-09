@@ -10,8 +10,16 @@ export function GetMyPublicKey() {
   return window['go']['main']['App']['GetMyPublicKey']();
 }
 
+export function IsLoggedIn() {
+  return window['go']['main']['App']['IsLoggedIn']();
+}
+
 export function Login(arg1) {
   return window['go']['main']['App']['Login'](arg1);
+}
+
+export function Logout() {
+  return window['go']['main']['App']['Logout']();
 }
 
 export function SelectFile() {

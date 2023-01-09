@@ -22,6 +22,10 @@ func NewApp() *App {
 
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+	mnemonic, ok := keyring.GetSavedMnemonic()
+	if ok {
+		a.Login(mnemonic)
+	}
 }
 
 func (a *App) Login(mnemonic string) error {
@@ -36,6 +40,19 @@ func (a *App) Login(mnemonic string) error {
 	}
 
 	a.keys = keys
+	return keyring.WriteMnemonic(mnemonic)
+}
+
+func (a *App) IsLoggedIn() bool {
+	return a.keys != nil
+}
+
+func (a *App) Logout() error {
+	err := keyring.DeleteMnemonic()
+	if err != nil {
+		return err
+	}
+	a.keys = nil
 	return nil
 }
 
