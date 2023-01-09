@@ -3,6 +3,7 @@ package keyring
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"strings"
 )
 
@@ -37,6 +38,10 @@ func NewContact(name string, publicKeyHex string) error {
 	contacts, err := GetContacts()
 	if err != nil {
 		return err
+	}
+
+	if isDuplicate(contacts, contact.Name) {
+		return fmt.Errorf("contact with name %q already exists", contact.Name)
 	}
 
 	contacts = append(contacts, contact)
@@ -81,4 +86,14 @@ func contactsToJsonBytes(contacts []*Contact) ([]byte, error) {
 
 func normalizeName(name string) string {
 	return strings.ReplaceAll(name, " ", "_")
+}
+
+func isDuplicate(contacts []*Contact, name string) bool {
+	found := false
+	for _, c := range contacts {
+		if c.Name == name {
+			found = true
+		}
+	}
+	return found
 }
