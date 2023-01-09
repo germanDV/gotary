@@ -8,8 +8,8 @@ import (
 )
 
 type Public struct {
-	Key ed25519.PublicKey
-	Hex string
+	Key ed25519.PublicKey `json:"key"`
+	Hex string            `json:"hex"`
 }
 
 // Keyring holds a Private and a Public key.
@@ -69,7 +69,7 @@ func PublicKeyFromHex(hs string) (*Public, error) {
 	}
 
 	if len(bytes) != ed25519.PublicKeySize {
-		return nil, errors.New("invalid private key size.")
+		return nil, errors.New("invalid public key size.")
 	}
 
 	return &Public{

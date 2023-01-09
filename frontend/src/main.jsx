@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client"
 import { createHashRouter, RouterProvider } from "react-router-dom"
 import { toastConfig } from "react-simple-toasts"
 import Auth from "./pages/Auth"
-import Home, { loader as homeLoader } from "./pages/Home"
+import Home, { loader as homeLoader, importKey } from "./pages/Home"
 import Err from "./pages/Err"
 import "./style.css"
 
@@ -25,6 +25,7 @@ const router = createHashRouter([
     element: <Home />,
     errorElement: <Err />,
     loader: homeLoader,
+    action: importKey,
   },
 ])
 

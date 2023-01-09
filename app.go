@@ -93,3 +93,11 @@ func (a *App) CopyToClipboard(text string) error {
 	clipboard.Write(clipboard.FmtText, []byte(text))
 	return nil
 }
+
+func (a *App) GetContacts() ([]*keyring.Contact, error) {
+	return keyring.GetContacts()
+}
+
+func (a *App) AddContact(name string, publicKeyHex string) error {
+	return keyring.NewContact(name, publicKeyHex)
+}
