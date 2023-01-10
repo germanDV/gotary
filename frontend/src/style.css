@@ -251,3 +251,13 @@ textarea {
   top: 20px;
   right: 20px;
 }
+
+p.link {
+  color: var(--secondary-color);
+  cursor: pointer;
+  transition-duration: .5s;
+}
+p.link:hover {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
