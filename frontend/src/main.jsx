@@ -7,8 +7,10 @@ import Home, {
   loader as homeLoader,
   action as homeAction,
 } from "./pages/Home"
+import Success from "./pages/Success"
 import Err from "./pages/Err"
 import Signer from "./components/Signer"
+import Verifier, { action as verifierAction } from "./components/Verifier"
 import "./style.css"
 
 toastConfig({
@@ -37,9 +39,14 @@ const router = createHashRouter([
       },
       {
         path: "verify",
-        element: <h1>Verify</h1>,
+        element: <Verifier />,
+        action: verifierAction,
       },
     ],
+  },
+  {
+    path: "/success",
+    element: <Success />,
   },
 ])
 

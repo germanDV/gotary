@@ -228,17 +228,21 @@ div.file-chooser > div {
   padding: 10px;
 }
 
-textarea {
+textarea.black {
   border: none;
   background-color: var(--main-bg-color);
   margin-bottom: 5px;
 }
 
-.import-key > input {
+input.black {
   border: none;
   background-color: var(--main-bg-color);
   max-width: 100%;
   margin-top: 0;
+}
+
+textarea.full {
+  width: 100%;
 }
 
 p.link {
@@ -283,5 +287,9 @@ nav > ul > li > a {
   justify-content: center;
 }
 nav > ul > li > a.active {
+  color: var(--secondary-color);
+}
+
+span.accent {
   color: var(--secondary-color);
 }

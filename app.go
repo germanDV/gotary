@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"os"
+	"strings"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"gitlab.com/germandv/gotary/keyring"
@@ -83,6 +84,34 @@ func (a *App) SignFile(path string) (string, error) {
 	}
 	signature := a.keys.Sign(content)
 	return hex.EncodeToString(signature), nil
+}
+
+func (a *App) VerifySignature(filePath, signaturePath, candidateKey string) error {
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		return err
+	}
+
+	signatureHex, err := os.ReadFile(signaturePath)
+	if err != nil {
+		return err
+	}
+
+	signatureStr := strings.TrimSuffix(strings.TrimSuffix(string(signatureHex), "\n"), "\r")
+	signature, err := hex.DecodeString(signatureStr)
+	if err != nil {
+		return err
+	}
+
+	key, err := keyring.PublicKeyFromHex(candidateKey)
+	if err != nil {
+		return err
+	}
+
+	if !a.keys.VerifySignature(key.Key, data, signature) {
+		return errors.New("Bad signature")
+	}
+	return nil
 }
 
 func (a *App) CopyToClipboard(text string) error {

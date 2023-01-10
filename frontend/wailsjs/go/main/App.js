@@ -41,3 +41,7 @@ export function SelectFile() {
 export function SignFile(arg1) {
   return window['go']['main']['App']['SignFile'](arg1);
 }
+
+export function VerifySignature(arg1, arg2, arg3) {
+  return window['go']['main']['App']['VerifySignature'](arg1, arg2, arg3);
+}

@@ -19,8 +19,8 @@ const ImportKey = () => {
 
   return (
     <fetcher.Form className="import-key" method="post" ref={formRef}>
-      <textarea name="newKey" cols="18" rows="4" placeholder="Paste Public Key" />
-      <input type="text" name="newName" placeholder="Name" />
+      <textarea className="black" name="newKey" cols="18" rows="4" placeholder="Paste Public Key" />
+      <input className="black" type="text" name="newName" placeholder="Name" />
       <button className="outline" type="submit">Import Key</button> 
     </fetcher.Form>
   )
