@@ -2,7 +2,7 @@ import React from 'react'
 import { createRoot } from "react-dom/client"
 import { createHashRouter, RouterProvider } from "react-router-dom"
 import { toastConfig } from "react-simple-toasts"
-import Auth from "./pages/Auth"
+import Auth, { action as authAction } from "./pages/Auth"
 import Home, {
   loader as homeLoader,
   action as homeAction,
@@ -25,6 +25,7 @@ const router = createHashRouter([
     path: "/",
     element: <Auth />,
     errorElement: <Err />,
+    action: authAction,
   },
   {
     path: "/dashboard",

@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import React, { useEffect } from "react"
+import { Form, redirect, useNavigate } from "react-router-dom"
 import logo from "../assets/images/logo-universal.png"
 import { Login, IsLoggedIn } from "../../wailsjs/go/main/App"
 
 const Auth = () => {
   const navigate = useNavigate()
-  const [error, setError] = useState("")
 
   useEffect(() => {
     async function checkUserStatus() {
@@ -17,23 +16,11 @@ const Auth = () => {
     checkUserStatus()
   }, [])
 
-  const handleSubmit = async (ev) => {
-    ev.preventDefault()
-    setError("")
-    try {
-      const mnemonic = ev.target.mnemonic.value
-      await Login(mnemonic)
-      navigate("/dashboard/sign")
-    } catch (err) {
-      setError(typeof err === "string" ? err : JSON.stringify(err))
-    }
-  }
-
   return (
     <main>
       <img src={logo} id="logo" alt="logo"/>
-      <h1>Auth Page</h1>
-      <form onSubmit={handleSubmit}>
+      <h1>Gotary</h1>
+      <Form method="post">
         <input
           autoFocus
           type="text"
@@ -42,10 +29,15 @@ const Auth = () => {
           placeholder="12-word mnemonic"
           className="wide"
         />
-      </form>
-      <div className="error">{error}</div>
+      </Form>
     </main>
   )
 }
 
 export default Auth
+
+export async function action({ request }) {
+  const formData = await request.formData()
+  await Login(formData.get("mnemonic"))
+  return redirect("/dashboard/sign")
+}
