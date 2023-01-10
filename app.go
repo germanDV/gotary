@@ -101,3 +101,7 @@ func (a *App) GetContacts() ([]*keyring.Contact, error) {
 func (a *App) AddContact(name string, publicKeyHex string) error {
 	return keyring.NewContact(name, publicKeyHex)
 }
+
+func (a *App) DeleteContact(name string) error {
+	return keyring.DeleteContact(name)
+}

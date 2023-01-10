@@ -10,6 +10,10 @@ export function CopyToClipboard(arg1) {
   return window['go']['main']['App']['CopyToClipboard'](arg1);
 }
 
+export function DeleteContact(arg1) {
+  return window['go']['main']['App']['DeleteContact'](arg1);
+}
+
 export function GetContacts() {
   return window['go']['main']['App']['GetContacts']();
 }

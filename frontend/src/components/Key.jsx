@@ -1,10 +1,13 @@
 import React from "react"
+import { useFetcher } from "react-router-dom"
 import toast from "react-simple-toasts"
 import ClipboardIcon from "../icons/ClipboardIcon"
 import TrashIcon from "../icons/TrashIcon"
 import { CopyToClipboard } from "../../wailsjs/go/main/App"
 
 const Key = ({ publicKey, name, me }) => {
+  const fetcher = useFetcher()
+
   const copyToClipboard = async () => {
     try {
       await CopyToClipboard(publicKey)
@@ -14,7 +17,9 @@ const Key = ({ publicKey, name, me }) => {
     }
   }
 
-  const remove = () => alert(publicKey)
+  const handleDelete = () => {
+    fetcher.submit({ name }, { method: "delete" })
+  }
 
   return (
     <div className="key">
@@ -30,9 +35,10 @@ const Key = ({ publicKey, name, me }) => {
         <div onClick={copyToClipboard} title="Copy">
           <ClipboardIcon />
         </div>
+
         {!me ? (
-          <div className="danger" onClick={remove} title="Delete">
-          <TrashIcon />
+          <div className="danger" title="Delete" onClick={handleDelete}>
+            <TrashIcon />
           </div>
         ) : null}
       </div>

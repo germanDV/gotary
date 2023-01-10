@@ -76,6 +76,28 @@ func GetContacts() ([]*Contact, error) {
 	return contacts, nil
 }
 
+func DeleteContact(name string) error {
+	contacts, err := GetContacts()
+	if err != nil {
+		return err
+	}
+
+	normalizedName := normalizeName(name)
+
+	filtered := []*Contact{}
+	for _, c := range contacts {
+		if c.Name != normalizedName {
+			filtered = append(filtered, c)
+		}
+	}
+
+	contactsJsonBytes, err := contactsToJsonBytes(filtered)
+	if err != nil {
+		return err
+	}
+	return WriteContacts(contactsJsonBytes)
+}
+
 func contactsToJsonBytes(contacts []*Contact) ([]byte, error) {
 	result := map[string]string{}
 	for _, c := range contacts {

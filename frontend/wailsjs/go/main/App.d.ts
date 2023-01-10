@@ -6,6 +6,8 @@ export function AddContact(arg1:string,arg2:string):Promise<void>;
 
 export function CopyToClipboard(arg1:string):Promise<void>;
 
+export function DeleteContact(arg1:string):Promise<void>;
+
 export function GetContacts():Promise<Array<keyring.Contact>>;
 
 export function GetMyPublicKey():Promise<string>;

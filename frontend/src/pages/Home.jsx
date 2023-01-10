@@ -2,7 +2,7 @@ import React from "react"
 import Keys from "../components/Keys"
 import Signer from "../components/Signer"
 import Out from "../components/Out"
-import { GetMyPublicKey, GetContacts, AddContact } from "../../wailsjs/go/main/App"
+import { GetMyPublicKey, GetContacts, AddContact, DeleteContact } from "../../wailsjs/go/main/App"
 
 const Home = () => {
   return (
@@ -25,9 +25,15 @@ export async function loader() {
   return { myPublicKey, contacts }
 }
 
-export async function importKey({ request }) {
-  const formData = await request.formData()
-  const name = formData.get("newName")
-  const key = formData.get("newKey")
-  return AddContact(name, key)
+export async function action({ request }) {
+  if (request.method === "POST") {
+    const formData = await request.formData()
+    const name = formData.get("newName")
+    const key = formData.get("newKey")
+    return AddContact(name, key)
+  } else if (request.method === "DELETE") {
+    const formData = await request.formData()
+    const name = formData.get("name")
+    return DeleteContact(name)
+  }
 }
