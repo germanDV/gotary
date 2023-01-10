@@ -34,6 +34,10 @@ export function Logout() {
   return window['go']['main']['App']['Logout']();
 }
 
+export function SaveSignatureToDisk(arg1, arg2) {
+  return window['go']['main']['App']['SaveSignatureToDisk'](arg1, arg2);
+}
+
 export function SelectFile() {
   return window['go']['main']['App']['SelectFile']();
 }

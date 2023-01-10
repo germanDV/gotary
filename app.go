@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -121,6 +122,19 @@ func (a *App) CopyToClipboard(text string) error {
 	}
 	clipboard.Write(clipboard.FmtText, []byte(text))
 	return nil
+}
+
+func (a *App) SaveSignatureToDisk(filePath, signature string) (string, error) {
+	file := filepath.Base(filePath)
+	base := strings.TrimSuffix(filePath, file)
+	ext := filepath.Ext(filePath)
+	sig := strings.TrimSuffix(file, ext) + ".sig"
+	signaturePath := base + sig
+	err := keyring.WriteSignature(signaturePath, signature)
+	if err != nil {
+		return "", err
+	}
+	return sig, nil
 }
 
 func (a *App) GetContacts() ([]*keyring.Contact, error) {

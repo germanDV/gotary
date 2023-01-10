@@ -99,3 +99,7 @@ func ReadContactFile() ([]byte, error) {
 
 	return os.ReadFile(file)
 }
+
+func WriteSignature(path string, signature string) error {
+	return os.WriteFile(path, []byte(signature), os.FileMode(0644))
+}

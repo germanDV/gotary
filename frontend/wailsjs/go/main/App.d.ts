@@ -18,6 +18,8 @@ export function Login(arg1:string):Promise<void>;
 
 export function Logout():Promise<void>;
 
+export function SaveSignatureToDisk(arg1:string,arg2:string):Promise<string>;
+
 export function SelectFile():Promise<string>;
 
 export function SignFile(arg1:string):Promise<string>;

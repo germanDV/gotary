@@ -1,6 +1,11 @@
 import React, { useState } from "react"
 import toast from "react-simple-toasts"
-import { SelectFile, SignFile, CopyToClipboard } from "../../wailsjs/go/main/App"
+import {
+  SelectFile,
+  SignFile,
+  CopyToClipboard,
+  SaveSignatureToDisk,
+} from "../../wailsjs/go/main/App"
 
 const Signer = () => {
   const [path, setPath] = useState("")
@@ -43,6 +48,15 @@ const Signer = () => {
     }
   }
 
+  const saveSignatureToDisk = async () => {
+    try {
+      const filename = await SaveSignatureToDisk(path, signature)
+      toast(`Saved ${filename} next to your file.`)
+    } catch (err) {
+      setErr(err)
+    }
+  }
+
   return (
     <div>
       <section>
@@ -63,7 +77,8 @@ const Signer = () => {
         </div>
         {signature ? (
           <div className="align-right">
-            <button className="fill" onClick={copySignatureToClipboard}>Copy Signature</button>
+            <button className="outline" onClick={copySignatureToClipboard}>Copy</button>
+            <button className="fill" onClick={saveSignatureToDisk}>Save</button>
           </div>
         ) : null}
       </section>

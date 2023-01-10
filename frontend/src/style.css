@@ -205,6 +205,9 @@ div.align-right {
   margin-top: 20px;
   text-align: right;
 }
+div.align-right > button:last-child {
+  margin-left: 5px;
+}
 
 .file-chooser {
   display: grid;
