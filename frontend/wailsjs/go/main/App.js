@@ -14,6 +14,10 @@ export function DeleteContact(arg1) {
   return window['go']['main']['App']['DeleteContact'](arg1);
 }
 
+export function GenerateMnemonic() {
+  return window['go']['main']['App']['GenerateMnemonic']();
+}
+
 export function GetContacts() {
   return window['go']['main']['App']['GetContacts']();
 }

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
-import { Form, redirect, useNavigate } from "react-router-dom"
+import { useNavigate, Outlet, Link } from "react-router-dom"
 import logo from "../assets/images/logo-universal.png"
-import { Login, IsLoggedIn } from "../../wailsjs/go/main/App"
+import { IsLoggedIn } from "../../wailsjs/go/main/App"
 
 const Auth = () => {
   const navigate = useNavigate()
@@ -20,24 +20,10 @@ const Auth = () => {
     <main>
       <img src={logo} id="logo" alt="logo"/>
       <h1>Gotary</h1>
-      <Form method="post">
-        <input
-          autoFocus
-          type="text"
-          name="mnemonic"
-          autoComplete="off"
-          placeholder="12-word mnemonic"
-          className="wide"
-        />
-      </Form>
+      <Outlet />
     </main>
   )
 }
 
 export default Auth
 
-export async function action({ request }) {
-  const formData = await request.formData()
-  await Login(formData.get("mnemonic"))
-  return redirect("/dashboard/sign")
-}

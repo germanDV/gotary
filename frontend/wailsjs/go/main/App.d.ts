@@ -8,6 +8,8 @@ export function CopyToClipboard(arg1:string):Promise<void>;
 
 export function DeleteContact(arg1:string):Promise<void>;
 
+export function GenerateMnemonic():Promise<string>;
+
 export function GetContacts():Promise<Array<keyring.Contact>>;
 
 export function GetMyPublicKey():Promise<string>;

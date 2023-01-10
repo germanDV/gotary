@@ -148,3 +148,7 @@ func (a *App) AddContact(name string, publicKeyHex string) error {
 func (a *App) DeleteContact(name string) error {
 	return keyring.DeleteContact(name)
 }
+
+func (a *App) GenerateMnemonic() (string, error) {
+	return keyring.GenerateMnemonic()
+}

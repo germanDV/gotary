@@ -48,7 +48,8 @@ aside {
 }
 
 a {
-  color: var(--accent-color);
+  color: var(--secondary-color);
+  text-decoration: none;
 }
 
 .error {
@@ -293,6 +294,13 @@ nav > ul > li > a.active {
   color: var(--secondary-color);
 }
 
-span.accent {
+.accent {
   color: var(--secondary-color);
+}
+
+.auth-links {
+  font-size: 1.4rem;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
 }
