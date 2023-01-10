@@ -11,7 +11,7 @@ const Auth = () => {
     async function checkUserStatus() {
       const isLoggedIn = await IsLoggedIn()
       if (isLoggedIn) {
-        navigate("/dashboard")
+        navigate("/dashboard/sign")
       }
     }
     checkUserStatus()
@@ -23,7 +23,7 @@ const Auth = () => {
     try {
       const mnemonic = ev.target.mnemonic.value
       await Login(mnemonic)
-      navigate("/dashboard")
+      navigate("/dashboard/sign")
     } catch (err) {
       setError(typeof err === "string" ? err : JSON.stringify(err))
     }

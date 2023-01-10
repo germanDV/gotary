@@ -1,17 +1,17 @@
 import React from "react"
+import { Outlet } from "react-router-dom"
 import Keys from "../components/Keys"
-import Signer from "../components/Signer"
-import Out from "../components/Out"
+import Nav from "../components/Nav"
 import { GetMyPublicKey, GetContacts, AddContact, DeleteContact } from "../../wailsjs/go/main/App"
 
 const Home = () => {
   return (
     <main>
-      <Out />
       <div className="grid">
         <Keys />
         <div className="main">
-          <Signer />
+          <Nav />
+          <Outlet />
         </div>
       </div>
     </main>

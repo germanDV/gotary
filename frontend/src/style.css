@@ -143,10 +143,6 @@ span.public-key-xs {
 
 .main {
   overflow-x: auto;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 button {
@@ -245,13 +241,6 @@ textarea {
   margin-top: 0;
 }
 
-.logout {
-  cursor: pointer;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-
 p.link {
   color: var(--secondary-color);
   cursor: pointer;
@@ -260,4 +249,39 @@ p.link {
 p.link:hover {
   text-decoration: underline;
   text-decoration-style: dotted;
+}
+
+nav {
+  margin-top: 20px;
+  margin-bottom: 100px;
+}
+
+nav > ul {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 0;
+  list-style-type: none; 
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+}
+
+nav > ul > li {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary-text-color);
+}
+
+nav > ul > li > a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+nav > ul > li > a.active {
+  color: var(--secondary-color);
 }
