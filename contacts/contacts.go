@@ -16,7 +16,7 @@ type Contact struct {
 }
 
 // New creates a new contact and saves it.
-func New(name string, publicKeyHex string) error {
+func New(repo repository.Repo, name string, publicKeyHex string) error {
 	if name == "" {
 		return errors.New("please indicate contact's name")
 	}
@@ -31,21 +31,21 @@ func New(name string, publicKeyHex string) error {
 		Public: publicKey,
 	}
 
-	if !repository.ContactsFileExists() {
+	if !repo.ContactsFileExists() {
 		contactJsonBytes, err := contactsToJsonBytes([]*Contact{contact})
 		if err != nil {
 			return err
 		}
-		return repository.WriteContacts(contactJsonBytes)
+		return repo.WriteContacts(contactJsonBytes)
 	}
 
-	contacts, err := GetAll()
+	contacts, err := GetAll(repo)
 	if err != nil {
 		return err
 	}
 
 	if isDuplicate(contacts, contact.Name) {
-		return fmt.Errorf("contact with name %q already exists", contact.Name)
+		return fmt.Errorf("contact with name %s already exists", contact.Name)
 	}
 
 	contacts = append(contacts, contact)
@@ -53,12 +53,12 @@ func New(name string, publicKeyHex string) error {
 	if err != nil {
 		return err
 	}
-	return repository.WriteContacts(contactsJsonBytes)
+	return repo.WriteContacts(contactsJsonBytes)
 }
 
 // GetAll retrieves all contacts.
-func GetAll() ([]*Contact, error) {
-	bytes, err := repository.ReadContactFile()
+func GetAll(repo repository.Repo) ([]*Contact, error) {
+	bytes, err := repo.ReadContactFile()
 	if err != nil {
 		return nil, err
 	}
@@ -82,8 +82,8 @@ func GetAll() ([]*Contact, error) {
 }
 
 // Delete removes a contact.
-func Delete(name string) error {
-	contacts, err := GetAll()
+func Delete(repo repository.Repo, name string) error {
+	contacts, err := GetAll(repo)
 	if err != nil {
 		return err
 	}
@@ -101,7 +101,7 @@ func Delete(name string) error {
 	if err != nil {
 		return err
 	}
-	return repository.WriteContacts(contactsJsonBytes)
+	return repo.WriteContacts(contactsJsonBytes)
 }
 
 func contactsToJsonBytes(contacts []*Contact) ([]byte, error) {

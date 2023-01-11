@@ -18,15 +18,18 @@ import (
 type App struct {
 	ctx  context.Context
 	keys *keyring.Keyring
+	repo repository.Repo
 }
 
 func NewApp() *App {
-	return &App{}
+	return &App{
+		repo: &repository.FsRepo{},
+	}
 }
 
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
-	mnemonic, ok := repository.GetSavedMnemonic()
+	mnemonic, ok := a.repo.GetSavedMnemonic()
 	if ok {
 		a.Login(mnemonic)
 	}
@@ -44,7 +47,7 @@ func (a *App) Login(mnemonic string) error {
 	}
 
 	a.keys = keys
-	return repository.WriteMnemonic(mnemonic)
+	return a.repo.WriteMnemonic(mnemonic)
 }
 
 func (a *App) IsLoggedIn() bool {
@@ -52,7 +55,7 @@ func (a *App) IsLoggedIn() bool {
 }
 
 func (a *App) Logout() error {
-	err := repository.DeleteMnemonic()
+	err := a.repo.DeleteMnemonic()
 	if err != nil {
 		return err
 	}
@@ -134,7 +137,7 @@ func (a *App) SaveSignatureToDisk(filePath, signature string) (string, error) {
 	ext := filepath.Ext(filePath)
 	sig := strings.TrimSuffix(file, ext) + ".sig"
 	signaturePath := base + sig
-	err := repository.WriteSignature(signaturePath, signature)
+	err := a.repo.WriteSignature(signaturePath, signature)
 	if err != nil {
 		return "", err
 	}
@@ -142,15 +145,15 @@ func (a *App) SaveSignatureToDisk(filePath, signature string) (string, error) {
 }
 
 func (a *App) GetContacts() ([]*contacts.Contact, error) {
-	return contacts.GetAll()
+	return contacts.GetAll(a.repo)
 }
 
 func (a *App) AddContact(name string, publicKeyHex string) error {
-	return contacts.New(name, publicKeyHex)
+	return contacts.New(a.repo, name, publicKeyHex)
 }
 
 func (a *App) DeleteContact(name string) error {
-	return contacts.Delete(name)
+	return contacts.Delete(a.repo, name)
 }
 
 func (a *App) GenerateMnemonic() (string, error) {

@@ -13,8 +13,21 @@ const (
 	GotaryContactsFile = "contacts.json"
 )
 
+type Repo interface {
+	WriteContacts(contactJsonBytes []byte) error
+	ReadContactFile() ([]byte, error)
+	ContactsFileExists() bool
+	WriteMnemonic(mnemonic string) error
+	GetSavedMnemonic() (string, bool)
+	DeleteMnemonic() error
+	WriteSignature(path string, signature string) error
+}
+
+// FsRepo implements the Repo interface and uses the file system.
+type FsRepo struct{}
+
 // WriteContacts persists contacts.
-func WriteContacts(contactJsonBytes []byte) error {
+func (fs *FsRepo) WriteContacts(contactJsonBytes []byte) error {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return err
@@ -24,7 +37,7 @@ func WriteContacts(contactJsonBytes []byte) error {
 }
 
 // ReadContactFile retrieves the contents of the file where contacts are stored.
-func ReadContactFile() ([]byte, error) {
+func (fs *FsRepo) ReadContactFile() ([]byte, error) {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return nil, err
@@ -41,7 +54,7 @@ func ReadContactFile() ([]byte, error) {
 }
 
 // ContactsFileExists checks whether the contacts file has been created yet.
-func ContactsFileExists() bool {
+func (fs *FsRepo) ContactsFileExists() bool {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return false
@@ -55,7 +68,7 @@ func ContactsFileExists() bool {
 }
 
 // WriteMnemonic saves the mnemonic to a file.
-func WriteMnemonic(mnemonic string) error {
+func (fs *FsRepo) WriteMnemonic(mnemonic string) error {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return err
@@ -75,7 +88,7 @@ func WriteMnemonic(mnemonic string) error {
 }
 
 // GetSavedMnemonic retrieves the saved mnemonic.
-func GetSavedMnemonic() (string, bool) {
+func (fs *FsRepo) GetSavedMnemonic() (string, bool) {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return "", false
@@ -90,7 +103,7 @@ func GetSavedMnemonic() (string, bool) {
 }
 
 // DeleteMnemonic removes saved the mnemnoic.
-func DeleteMnemonic() error {
+func (fs *FsRepo) DeleteMnemonic() error {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return err
@@ -99,7 +112,7 @@ func DeleteMnemonic() error {
 }
 
 // Writes the signature to a file in the given path.
-func WriteSignature(path string, signature string) error {
+func (fs *FsRepo) WriteSignature(path string, signature string) error {
 	return os.WriteFile(path, []byte(signature), os.FileMode(0644))
 }
 
