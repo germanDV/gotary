@@ -5,6 +5,8 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"errors"
+
+	"github.com/tyler-smith/go-bip39"
 )
 
 type Public struct {
@@ -12,14 +14,14 @@ type Public struct {
 	Hex string            `json:"hex"`
 }
 
-// Keyring holds a Private and a Public key.
+// Keyring holds a Private and a Public key-pair.
 type Keyring struct {
 	Private ed25519.PrivateKey
 	Public  Public
 }
 
-// NewKeyring generates a new key-pair and returns a Keyring.
-func NewKeyring() (*Keyring, error) {
+// New generates a new key-pair and returns a Keyring.
+func New() (*Keyring, error) {
 	publicKey, privateKey, err := ed25519.GenerateKey(rand.Reader)
 	if err != nil {
 		return nil, err
@@ -34,8 +36,8 @@ func NewKeyring() (*Keyring, error) {
 	}, nil
 }
 
-// KeyringFromSeed creates a new Keyring from a seed.
-func KeyringFromSeed(seed []byte) (*Keyring, error) {
+// FromSeed creates a new Keyring from a seed.
+func FromSeed(seed []byte) (*Keyring, error) {
 	if len(seed) != ed25519.SeedSize {
 		return nil, errors.New("invalid seed size for keyring generation")
 	}
@@ -84,7 +86,7 @@ func (k *Keyring) Sign(data []byte) []byte {
 }
 
 // VerifySignature checks if the data has been signed by the given public key.
-func (k *Keyring) VerifySignature(publicKey ed25519.PublicKey, data []byte, signature []byte) bool {
+func VerifySignature(publicKey ed25519.PublicKey, data []byte, signature []byte) bool {
 	return ed25519.Verify(publicKey, data, signature)
 }
 
@@ -92,3 +94,29 @@ func (k *Keyring) VerifySignature(publicKey ed25519.PublicKey, data []byte, sign
 func (k *Keyring) VerifyOwnSignature(data []byte, signature []byte) bool {
 	return ed25519.Verify(k.Public.Key, data, signature)
 }
+
+// GenerateMnemonic creates a new 12-word mnemonic.
+func GenerateMnemonic() (string, error) {
+	entropy, err := bip39.NewEntropy(128)
+	if err != nil {
+		return "", err
+	}
+	return bip39.NewMnemonic(entropy)
+}
+
+// MnemonicToSeed converts a 12-word mnemonic into a 32-byte seed.
+func MnemonicToSeed(mnemonic string) ([]byte, error) {
+	password := ""
+	seed, err := bip39.NewSeedWithErrorChecking(mnemonic, password)
+	if err != nil {
+		return []byte{}, err
+	}
+	// We want 32 bytes so that we can use it as a seed for ed25519 keys.
+	return seed[0:32], nil
+}
+
+// TODO: delete?
+// SeedToHex encodes a seed as a hex string.
+// func SeedToHex(seed []byte) string {
+//   return hex.EncodeToString(seed)
+// }

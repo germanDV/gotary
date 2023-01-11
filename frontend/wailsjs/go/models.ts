@@ -1,22 +1,8 @@
-export namespace keyring {
+export namespace contacts {
 	
-	export class Public {
-	    key: number[];
-	    hex: string;
-	
-	    static createFrom(source: any = {}) {
-	        return new Public(source);
-	    }
-	
-	    constructor(source: any = {}) {
-	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.key = source["key"];
-	        this.hex = source["hex"];
-	    }
-	}
 	export class Contact {
 	    name: string;
-	    publicKey?: Public;
+	    publicKey?: keyring.Public;
 	
 	    static createFrom(source: any = {}) {
 	        return new Contact(source);
@@ -25,7 +11,7 @@ export namespace keyring {
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.name = source["name"];
-	        this.publicKey = this.convertValues(source["publicKey"], Public);
+	        this.publicKey = this.convertValues(source["publicKey"], keyring.Public);
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
@@ -45,6 +31,25 @@ export namespace keyring {
 		    }
 		    return a;
 		}
+	}
+
+}
+
+export namespace keyring {
+	
+	export class Public {
+	    key: number[];
+	    hex: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new Public(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.key = source["key"];
+	        this.hex = source["hex"];
+	    }
 	}
 
 }

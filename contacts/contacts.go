@@ -1,23 +1,27 @@
-package keyring
+package contacts
 
 import (
 	"encoding/json"
 	"errors"
 	"fmt"
 	"strings"
+
+	"gitlab.com/germandv/gotary/keyring"
+	"gitlab.com/germandv/gotary/repository"
 )
 
 type Contact struct {
-	Name   string  `json:"name"`
-	Public *Public `json:"publicKey"`
+	Name   string          `json:"name"`
+	Public *keyring.Public `json:"publicKey"`
 }
 
-func NewContact(name string, publicKeyHex string) error {
+// New creates a new contact and saves it.
+func New(name string, publicKeyHex string) error {
 	if name == "" {
 		return errors.New("please indicate contact's name")
 	}
 
-	publicKey, err := PublicKeyFromHex(publicKeyHex)
+	publicKey, err := keyring.PublicKeyFromHex(publicKeyHex)
 	if err != nil {
 		return err
 	}
@@ -27,15 +31,15 @@ func NewContact(name string, publicKeyHex string) error {
 		Public: publicKey,
 	}
 
-	if !ContactsFileExists() {
+	if !repository.ContactsFileExists() {
 		contactJsonBytes, err := contactsToJsonBytes([]*Contact{contact})
 		if err != nil {
 			return err
 		}
-		return WriteContacts(contactJsonBytes)
+		return repository.WriteContacts(contactJsonBytes)
 	}
 
-	contacts, err := GetContacts()
+	contacts, err := GetAll()
 	if err != nil {
 		return err
 	}
@@ -49,11 +53,12 @@ func NewContact(name string, publicKeyHex string) error {
 	if err != nil {
 		return err
 	}
-	return WriteContacts(contactsJsonBytes)
+	return repository.WriteContacts(contactsJsonBytes)
 }
 
-func GetContacts() ([]*Contact, error) {
-	bytes, err := ReadContactFile()
+// GetAll retrieves all contacts.
+func GetAll() ([]*Contact, error) {
+	bytes, err := repository.ReadContactFile()
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +68,7 @@ func GetContacts() ([]*Contact, error) {
 
 	contacts := []*Contact{}
 	for name, hexKey := range contactsMap {
-		key, err := PublicKeyFromHex(hexKey)
+		key, err := keyring.PublicKeyFromHex(hexKey)
 		if err != nil {
 			return contacts, err
 		}
@@ -76,8 +81,9 @@ func GetContacts() ([]*Contact, error) {
 	return contacts, nil
 }
 
-func DeleteContact(name string) error {
-	contacts, err := GetContacts()
+// Delete removes a contact.
+func Delete(name string) error {
+	contacts, err := GetAll()
 	if err != nil {
 		return err
 	}
@@ -95,7 +101,7 @@ func DeleteContact(name string) error {
 	if err != nil {
 		return err
 	}
-	return WriteContacts(contactsJsonBytes)
+	return repository.WriteContacts(contactsJsonBytes)
 }
 
 func contactsToJsonBytes(contacts []*Contact) ([]byte, error) {

@@ -9,7 +9,9 @@ import (
 	"strings"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
+	"gitlab.com/germandv/gotary/contacts"
 	"gitlab.com/germandv/gotary/keyring"
+	"gitlab.com/germandv/gotary/repository"
 	"golang.design/x/clipboard"
 )
 
@@ -24,7 +26,7 @@ func NewApp() *App {
 
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
-	mnemonic, ok := keyring.GetSavedMnemonic()
+	mnemonic, ok := repository.GetSavedMnemonic()
 	if ok {
 		a.Login(mnemonic)
 	}
@@ -36,13 +38,13 @@ func (a *App) Login(mnemonic string) error {
 		return err
 	}
 
-	keys, err := keyring.KeyringFromSeed(seed)
+	keys, err := keyring.FromSeed(seed)
 	if err != nil {
 		return err
 	}
 
 	a.keys = keys
-	return keyring.WriteMnemonic(mnemonic)
+	return repository.WriteMnemonic(mnemonic)
 }
 
 func (a *App) IsLoggedIn() bool {
@@ -50,7 +52,7 @@ func (a *App) IsLoggedIn() bool {
 }
 
 func (a *App) Logout() error {
-	err := keyring.DeleteMnemonic()
+	err := repository.DeleteMnemonic()
 	if err != nil {
 		return err
 	}
@@ -80,9 +82,11 @@ func (a *App) SignFile(path string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+
 	if a.keys == nil {
 		return "", errors.New("no keyring initialized")
 	}
+
 	signature := a.keys.Sign(content)
 	return hex.EncodeToString(signature), nil
 }
@@ -109,7 +113,7 @@ func (a *App) VerifySignature(filePath, signaturePath, candidateKey string) erro
 		return err
 	}
 
-	if !a.keys.VerifySignature(key.Key, data, signature) {
+	if !keyring.VerifySignature(key.Key, data, signature) {
 		return errors.New("Bad signature")
 	}
 	return nil
@@ -130,23 +134,23 @@ func (a *App) SaveSignatureToDisk(filePath, signature string) (string, error) {
 	ext := filepath.Ext(filePath)
 	sig := strings.TrimSuffix(file, ext) + ".sig"
 	signaturePath := base + sig
-	err := keyring.WriteSignature(signaturePath, signature)
+	err := repository.WriteSignature(signaturePath, signature)
 	if err != nil {
 		return "", err
 	}
 	return sig, nil
 }
 
-func (a *App) GetContacts() ([]*keyring.Contact, error) {
-	return keyring.GetContacts()
+func (a *App) GetContacts() ([]*contacts.Contact, error) {
+	return contacts.GetAll()
 }
 
 func (a *App) AddContact(name string, publicKeyHex string) error {
-	return keyring.NewContact(name, publicKeyHex)
+	return contacts.New(name, publicKeyHex)
 }
 
 func (a *App) DeleteContact(name string) error {
-	return keyring.DeleteContact(name)
+	return contacts.Delete(name)
 }
 
 func (a *App) GenerateMnemonic() (string, error) {
