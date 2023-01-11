@@ -1,6 +1,6 @@
 # GOTARY
 
-![logo](./frontend/src/assets/images/logo-universal.png)
+<img src="./frontend/src/assets/images/logo-universal.png" alt="Logo" width="200" />
 
 ## About
 
