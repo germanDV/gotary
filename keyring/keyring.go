@@ -114,9 +114,3 @@ func MnemonicToSeed(mnemonic string) ([]byte, error) {
 	// We want 32 bytes so that we can use it as a seed for ed25519 keys.
 	return seed[0:32], nil
 }
-
-// TODO: delete?
-// SeedToHex encodes a seed as a hex string.
-// func SeedToHex(seed []byte) string {
-//   return hex.EncodeToString(seed)
-// }
