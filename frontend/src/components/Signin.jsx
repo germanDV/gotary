@@ -4,7 +4,7 @@ import { Login } from "../../wailsjs/go/main/App"
 
 const Signin = () => {
   return (
-    <div>
+    <div style={{ width: 550 }}>
       <Form method="post">
         <input
           autoFocus
@@ -12,7 +12,7 @@ const Signin = () => {
           name="mnemonic"
           autoComplete="off"
           placeholder="12-word mnemonic"
-          className="wide"
+          className="full"
         />
       </Form>
       <Link to="/">&larr; Go Back</Link>
