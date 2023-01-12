@@ -14,11 +14,11 @@ Gotary lets you store contacts, as you need their public keys to verify signatur
 
 ## Warning
 
-This project is under heavy development, it should be considered _alpha_ software.
+This project should be considered _alpha_ software.
 
 ## Installation
 
-**Work in progress**, binaries for Linux, MacOS and Windows will be available for download with each release.
+Find the binary for your platform inside _build/bin/_.
 
 ## Develop
 
@@ -30,3 +30,10 @@ and have access to your Go methods, there is also a dev server that runs on http
 to this in your browser, and you can call your Go code from devtools.
 
 To build a redistributable, production mode package, use `wails build`.
+
+## Build
+
+- Linux `wails build -o gotary-linux-amd64 linux/amd64`
+- Windows `wails build -o gotary-windows-amd64 windows/amd64`
+- Mac `wails build -o gotary-macos-amd64 darwin/amd64`
+- Mac ARM `wails build -o gotary-macos-arm64 darwin/arm64`
