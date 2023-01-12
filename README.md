@@ -20,6 +20,22 @@ This project should be considered _alpha_ software.
 
 Find the binary for your platform inside _build/bin/_.
 
+### Linux
+
+After downloading the binary, make it executable, you may want to rename it too:
+
+```
+mv gotary-linux-amd64 gotary
+chmod +x gotary
+./gotary
+```
+
+If you get an error trying to copy things to the clipboard, you probably need to install `libx11-dev`. For example, in debian-based distros:
+
+```
+sudo apt install libx11-dev
+```
+
 ## Develop
 
 It's built with [wails](https://wails.io), using React for the UI.
@@ -34,6 +50,6 @@ To build a redistributable, production mode package, use `wails build`.
 ## Build
 
 - Linux `wails build -o gotary-linux-amd64 linux/amd64`
-- Windows `wails build -o gotary-windows-amd64 windows/amd64`
+- Windows `wails build -webview2 embed -o gotary-windows-amd64 windows/amd64`
 - Mac `wails build -o gotary-macos-amd64 darwin/amd64`
 - Mac ARM `wails build -o gotary-macos-arm64 darwin/arm64`
