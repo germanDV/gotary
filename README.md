@@ -36,6 +36,12 @@ If you get an error trying to copy things to the clipboard, you probably need to
 sudo apt install libx11-dev
 ```
 
+### Windows
+
+Use Windows 10 or above.
+Rename the download to something like _gotary.exe_, the important part is to add the `.exe` at the end so that it's recognized as an application.
+Windows Defender will issue a warning about the program, that's because it's not properly signed, you can click more options and run it anyway.
+
 ## Develop
 
 It's built with [wails](https://wails.io), using React for the UI.
